@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <linK rel="stylesheet" href="style.css">
+   
+</head>
+<body>
+
+
+<div >
+    <img src="image/1.jpg" width="200" height="150" id="album-art">
+    <div id="audio-name">MatKatef</div>
+    <audio controls id="audio"  >
+        <source src="audio/1.mp3">
+
+    </audio>
+    <br>
+    <br>
+   
+    <br>
+    <input type="range" min="0"max="1" step="0.01" value="1" id="volume">
+    <br><br>
+    <input type="range" min="0" max="100" value="0" id="duration"><br><br><br>
+
+    <button id="Previous" onclick="prevSong()"> Previous</button>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+    <button id="mute">Mute</button>
+    <button id="Next" onclick="nextSong()"> Next</button>
+</div>
+
+    <script>
+
+        let audio=document.getElementById("audio");
+        let play=document.getElementById("play");
+        let stop=document.getElementById("stop");
+        let pause=document.getElementById("pause");
+        let mute=document.getElementById("mute");
+        let volume=document.getElementById("volume");
+        let duration=document.getElementById("duration");
+
+        console.dir(audio);                 
+        play.addEventListener("click",()=>{
+            audio.play();
+        })
+
+        pause.addEventListener("click",()=>{
+            audio.pause();
+        })
+
+        stop.addEventListener("click",()=>{
+
+            audio.pause();
+            audio.currentTime=0;
+        })
+        mute.addEventListener("click",()=>{
+            if(!audio.muted){
+                mute.innerHTML="unmuted"
+
+            }else{
+                mute.innerHTML="mute"
+                
+            }
+            audio.muted=!audio.muted
+
+        })
+
+        volume.addEventListener("input",()=>{
+            audio.volume=volume.value;
+        })
+
+        duration.addEventListener("input",()=>{
+
+            const durationTime=(duration.value/100)*audio.duration;
+            audio.currentTime=durationTime
+        })
+
+        audio.addEventListener("timeupdate",()=>{
+            const percentage=(audio.currentTime /audio.duration)*100;
+            duration.value=percentage;
+
+        })
+
+        const songs = [
+            {
+                name: "MatKatef",
+                image: "image/1.jpg",
+                audio: "audio/1.mp3"
+            },
+            {
+                name: "Song 2",
+                image: "image/2.jpg",
+                audio: "audio/3.mp3"
+            },
+            {
+                name: "Song 3",
+                image: "image/3.jpg",
+                audio: "audio/5.mp3"
+            }
+        ];
+
+        let currentSongIndex = 0;
+
+        const audioPlayer = document.getElementById("audio");
+        const audioName = document.getElementById("audio-name");
+        const albumArt = document.getElementById("album-art");
+
+        function loadSong(songIndex) {
+            audioName.textContent = songs[songIndex].name;
+            albumArt.src = songs[songIndex].image;
+            audioPlayer.src = songs[songIndex].audio;
+            audioPlayer.play();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong(currentSongIndex);
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+        }
+
+        
+        loadSong(currentSongIndex);
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+    
+</body>
+</html>
